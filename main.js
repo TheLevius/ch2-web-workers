@@ -1,7 +1,11 @@
-console.log('hello from main.js');
-const worker = new Worker('worker.js');
-worker.onmessage = (msg) => {
-	console.log('received message from worker', msg.data);
+navigator.serviceWorker.register('/sw.js', {
+	scope: '/',
+});
+navigator.serviceWorker.oncontrollerchange = () => {
+	console.log('controller change');
 };
-worker.postMessage('sent message to worker');
-console.log('end of main.js');
+async function makeRequest() {
+	const result = await fetch('/data.json');
+	const payload = await result.json();
+	console.log(payload);
+}
